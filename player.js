@@ -1,86 +1,71 @@
-import {Falling, Jumping, Running, Sitting, Rolling , Diving ,Hit} from './playerStates.js'
-import{collisionAnimation} from './collisionAnimation.js'
-export class Player{
-    constructor(game){
-        this.game= game;
-        this.width=100;
-        this.height=91.3;
-        this.x=0;
-        this.y=this.game.height - this.height - this.game.groundMargin;
-        this.vy =0;
-        this.weight =1.5;
-        this.image= document.getElementById('player');
-        this.frameX =0;
-        this.frameY =0 ;
-        this.maxFrame;
-        this.fps =20;
-        this.frameInterval = 1000/this.fps ;
-        this.frameTimer= 0;
-        this.speed =0;
-        this.maxSpeed =10;
-        this.states= [new Sitting(this.game) , new Running(this.game), new Jumping(this.game), new Falling(this.game) , new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
-        // this.currentState= this.states[0];
-        // this.currentState.enter();
-        
+class Player {
+    constructor(game) {
+        this.game = game;
+        this.x = this.game.width / 2;
+        this.y = this.game.height - 60;
+        this.width = 50;
+        this.height = 50;
+        this.speed = 5;
+        this.dx = 0;
+        this.dy = 0;
+        this.gravity = 0.5;
+        this.jumpStrength = -10;
+        this.isJumping = false;
+        this.health = 100;
+        this.initControls();
+        this.projectiles = [];
+        this.shootDelay = 500; // 0.5 seconds between shots
+        this.lastShot = Date.now()
     }
-    update(input, deltaTime){
-        this.checkCollision();
-        this.currentState.handleInput(input);
-        //horizontal Movement
-        this.x += this.speed ;
-        if(input.includes('ArrowRight') && this.currentState !== this.states[6]) this.speed = this.maxSpeed ;
-        else if(input.includes('ArrowLeft') && this.currentState !== this.states[6]) this.speed = -this.maxSpeed ;
-        else this.speed =0;
-        //horizontal boundaries
-        if(this.x <0) this.x =0 ;
-        if(this.x > this.game.width -this.width) this.x= this.game.width - this.width ;       
-        //vertical movement
-        this.y += this.vy;
-        if(!this.onGround()) this.vy += this.weight ;
-        else this.vy =0;
-        //vertical boundaries
-        if(this.y >this.game.height -this.height -this.game.groundMargin){
-            this.y=this.game.height -this.height -this.game.groundMargin;
-        }
-        // sprite animation
-        if(this.frameTimer > this.frameInterval){
-            this.frameTimer =0;
-            if (this.frameX < this.maxFrame) this.frameX++;
-            else this.frameX =0;
-        }else{
-            this.frameTimer += deltaTime ;
-        }
-        
-    }
-    draw(context){
-        if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height);
-        context.drawImage(this.image,this.frameX * this.width, this.frameY * this.height,this.width,this.height, this.x ,this.y ,this.width,this.height);
-    }
-    onGround(){
-        return this.y >= this.game.height - this.height- this.game.groundMargin;
-    }
-    setState(state,speed){
-        this.currentState= this.states[state];
-        this.game.speed =this.game.maxSpeed * speed;
-        this.currentState.enter();    
-    }
-    checkCollision(){
-        this.game.enemies.forEach(enemy =>{
-            if( 
-                enemy.x < this.x + this.width &&
-                enemy.x + enemy.width > this.x &&
-                enemy.y < this.y + this.height &&
-                enemy.y + enemy.height > this.y
-            ){
-                enemy.markedforDeletion = true ;
-                this.game.collisions.push(new collisionAnimation(this.game, enemy.x +enemy.width*0.5, enemy.y +enemy.height*0.5));
-                if(this.currentState === this.states[4] ||this.currentState === this.states[5]){
-                    this.game.score++;
-                }else{
-                    this.setState(6,0);
-                }
-                this.game.score++ ;
+
+    initControls() {
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') this.dx = this.speed;
+            if (e.key === 'ArrowLeft') this.dx = -this.speed;
+            if (e.key === ' ' && !this.isJumping) {
+                this.dy = this.jumpStrength;
+                this.isJumping = true;
             }
-        })
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') this.dx = 0;
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') this.dx = this.speed;
+            if (e.key === 'ArrowLeft') this.dx = -this.speed;
+            if (e.key === ' ' && !this.isJumping) {
+                this.dy = this.jumpStrength;
+                this.isJumping = true;
+            }
+            if (e.key === 'f') this.shoot();
+        });
+    }
+
+    update() {
+        this.x += this.dx;
+        this.dy += this.gravity;
+        this.y += this.dy;
+        if (this.y + this.height > this.game.height) {
+            this.y = this.game.height - this.height;
+            this.dy = 0;
+            this.isJumping = false;
+        }
+        this.projectiles.forEach(projectile => projectile.update());
+        this.projectiles = this.projectiles.filter(projectile => projectile.y > 0);
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.projectiles.forEach(projectile => projectile.draw(ctx));
+    }
+
+    shoot() {
+        if (Date.now() - this.lastShot > this.shootDelay) {
+            this.projectiles.push(new Projectile(this.game, this.x + this.width / 2, this.y));
+            this.lastShot = Date.now();
+        }
     }
 }
