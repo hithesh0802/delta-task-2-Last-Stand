@@ -14,10 +14,30 @@ class Zombie {
         } else {
             this.x -= this.speed;
         }
+
+        if (this.isCollidingWithPlayer()) {
+            this.game.player.health -= 50; // Example damage value
+            this.game.zombies = this.game.zombies.filter(z => z !== this); // Remove zombie after damaging the player
+
+            // End game if player's health reaches zero
+            if (this.game.player.health <= 0) {
+                this.game.endGame();               
+            }
+        }
     }
 
     draw(ctx) {
         ctx.fillStyle = 'green';
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+
+    isCollidingWithPlayer(){
+        const player = this.game.player;
+        return (
+            this.x < player.x + player.width &&
+            this.x + this.width > player.x &&
+            this.y < player.y + player.height &&
+            this.y + this.height > player.y
+        );
     }
 }
