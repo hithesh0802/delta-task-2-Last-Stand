@@ -16,8 +16,8 @@ class Zombie {
         }
 
         if (this.isCollidingWithPlayer()) {
-            this.game.player.health -= 50; // Example damage value
-            this.game.zombies = this.game.zombies.filter(z => z !== this); // Remove zombie after damaging the player
+            this.game.player.health -= 25; 
+            this.game.zombies = this.game.zombies.filter(z => z !== this); 
 
             // End game if player's health reaches zero
             if (this.game.player.health <= 0) {

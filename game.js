@@ -21,7 +21,7 @@ class Game {
 
     spawnZombie() {
         this.zombies.push(new Zombie(this));
-        setTimeout(() => this.spawnZombie(), 5000); // spawn a zombie every 5 seconds
+        setTimeout(() => this.spawnZombie(), 5000); 
         this.checkCollisions();
     }
 
@@ -82,12 +82,11 @@ class Game {
     }
 
     endGame() {
-        this.paused='true';
+        // this.paused='true';
         this.saveScore();
         this.loadLeaderboard();
         this.displayLeaderboard();
-        this.gameOver = true;
-        // Optionally, reset game or show game over screen
+        this.gameOver = 'true';
     }
 
     checkCollisions() {

@@ -14,9 +14,9 @@ class Player {
         this.health = 100;
         this.initControls();
         this.projectiles = [];
-        this.shootDelay = 500; // 0.5 seconds between shots
+        this.shootDelay = 500; 
         this.lastShot = Date.now();
-        this.facingDirection = 'right'; // Initialize facing direction
+        this.facingDirection = 'right'; 
     }
 
     initControls() {
