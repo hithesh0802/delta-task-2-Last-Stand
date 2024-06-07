@@ -9,11 +9,15 @@ class Game {
         this.paused='false';
         this.score=0;
         this.gameOver='false';
+        window.addEventListener('load',()=>{
+            this.gameOver=!this.gameOver;
+        })
+
         // Event listener for pause/play
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
                 this.paused = !this.paused;
-                this.gameOver=!this.gameOver;
+                // this.gameOver=!this.gameOver;
             }
         });
         this.loadLeaderboard();
@@ -83,10 +87,11 @@ class Game {
 
     endGame() {
         // this.paused='true';
+        this.gameOver = 'true';
         this.saveScore();
         this.loadLeaderboard();
         this.displayLeaderboard();
-        this.gameOver = 'true';
+        
     }
 
     checkCollisions() {

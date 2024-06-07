@@ -6,9 +6,9 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #222;
+    background-color: #222222;
 }
 
 canvas {
-    border: 1px solid #fff;
+    border: 1px solid #ffffff;
 }
