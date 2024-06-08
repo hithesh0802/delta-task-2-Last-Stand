@@ -17,6 +17,7 @@ class Player {
         this.shootDelay = 500; 
         this.lastShot = Date.now();
         this.facingDirection = 'right'; 
+        this.immunity='false';
     }
 
     initControls() {

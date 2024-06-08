@@ -6,6 +6,8 @@ class Game {
         this.player = new Player(this);
         this.zombies = [];
         this.spawnZombie();
+        this.powerups=[];
+        this.spawnpowerup();
         this.paused='false';
         this.score=0;
         this.gameOver='false';
@@ -17,7 +19,6 @@ class Game {
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
                 this.paused = !this.paused;
-                // this.gameOver=!this.gameOver;
             }
         });
         this.loadLeaderboard();
@@ -26,7 +27,13 @@ class Game {
     spawnZombie() {
         this.zombies.push(new Zombie(this));
         setTimeout(() => this.spawnZombie(), 5000); 
-        this.checkCollisions();
+        // this.checkCollisions();
+    }
+
+    spawnpowerup(){
+        this.powerups.push(new powerup(this));
+        setTimeout(() => this.spawnpowerup(), 15000);
+        // this.checkCollisions();    
     }
 
     update() {
@@ -34,6 +41,7 @@ class Game {
 
         this.player.update();
         this.zombies.forEach(zombie => zombie.update());
+        this.powerups.forEach(powerup => powerup.update());
         this.player.projectiles.forEach(projectile => projectile.update());
         this.checkCollisions();
     }
@@ -41,7 +49,7 @@ class Game {
     draw() {
         this.player.draw(this.ctx);
         this.zombies.forEach(zombie => zombie.draw(this.ctx));
-
+        this.powerups.forEach(powerup => powerup.draw(this.ctx));
          // Draw score
          this.ctx.fillStyle = 'white';
          this.ctx.font = '20px Arial';
@@ -94,11 +102,12 @@ class Game {
         
     }
 
+
     checkCollisions() {
         this.player.projectiles.forEach(projectile => {
             this.zombies.forEach(zombie => {
                 if (this.isColliding(projectile, zombie)) {
-                    console.log('Collision detected!');
+                    
                     // Highlight the zombie and projectile on collision
                     // this.ctx.fillStyle = 'yellow';
                     // this.ctx.fillRect(zombie.x, zombie.y, zombie.width, zombie.height);
@@ -112,17 +121,29 @@ class Game {
                     this.player.projectiles = this.player.projectiles.filter(p => p !== projectile);
                 }
             });
+            // console.log(this.powerups);
         });
+
+        this.powerups.forEach((powerup, powerupIndex) => {
+            if (this.isCollidingpowerup(this.player, powerup) && powerup.active) {
+                console.log('Collision detected!',this.player.health);
+                powerup.applypowerup();
+                this.powerups.splice(powerupIndex, 1); // Remove the power-up after applying effect
+            }
+        });        
+    }
+
+    isCollidingpowerup(player, powerup){
+        //console.log('hi',player.x,powerup.x,powerup.y,player.y,player.width);
+        return (
+            ((player.x  <= powerup.x && player.x + player.width  >= powerup.x) ||
+            player.x >= powerup.x && player.x - player.width <= powerup.x )&&
+            player.y >= powerup.y+ player.width
+        );
     }
 
     isColliding(projectile, zombie){
-        // console.log(projectile.x ,projectile.y, projectile.radius , zombie.x , zombie.width);
-        return (
-            // projectile.x - projectile.radius < zombie.x + zombie.width &&
-            // projectile.x + projectile.radius > zombie.x &&
-            // projectile.y - projectile.radius < zombie.y + zombie.height &&
-            // projectile.y + projectile.radius > zombie.y
-            
+        return (            
             projectile.x  < zombie.x + zombie.width &&
             projectile.x  > zombie.x &&
             projectile.y < zombie.y + zombie.height &&
