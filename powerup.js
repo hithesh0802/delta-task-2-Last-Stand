@@ -4,19 +4,20 @@ class powerup{
         this.ctx= this.game.ctx;
         this.x= this.game.width / 2;
         this.y= this.game.height - 100;
-        this.width=20;
-        this.height=20;
+        this.width=30;
+        this.height=30;
         this.type='immunity';
         this.active='true';
-
+        this.image= document.getElementById('health');
         this.lifespan = 3000; 
         this.creationTime = Date.now();
     }
 
     draw(ctx){
         if(this.active){
-            ctx.fillStyle='purple';
-            ctx.fillRect(this.x,this.y,this.width,this.height);
+            // ctx.fillStyle='purple';
+            // ctx.fillRect(this.x,this.y,this.width,this.height);
+            ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
         }    
     }
 
@@ -31,7 +32,7 @@ class powerup{
         setTimeout(() => {
             this.game.player.immunity = false;    
         }
-        , 5000);
+        , 10000);
         this.active = false;
     }
 

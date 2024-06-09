@@ -5,7 +5,7 @@ class Player {
         this.y = this.game.height - 60;
         this.width = 50;
         this.height = 50;
-        this.speed = 5;
+        this.speed = 10;
         this.dx = 0;
         this.dy = 0;
         this.gravity = 0.5;

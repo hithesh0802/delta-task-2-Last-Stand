@@ -5,17 +5,17 @@ class Projectile {
         this.y = y;
         this.direction = direction; 
         this.radius = 5;
-        this.speed = 5;
+        this.speed = 10;
         this.gravity = 0.2;
         this.dx = 0; // Horizontal velocity
         this.dy = 0; // Vertical velocity
 
         if (direction === 'right') {
-            this.dx = 5 * Math.cos(Math.PI / 4); 
-            this.dy = -5 * Math.sin(Math.PI / 4); 
+            this.dx = 6 * Math.cos(Math.PI / 4); 
+            this.dy = -6 * Math.sin(Math.PI / 4); 
         } else if (direction === 'left') {
-            this.dx = -5 * Math.cos(Math.PI / 4); 
-            this.dy = -5 * Math.sin(Math.PI / 4); 
+            this.dx = -6 * Math.cos(Math.PI / 4); 
+            this.dy = -6 * Math.sin(Math.PI / 4); 
         }
 
     }
