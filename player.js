@@ -5,7 +5,7 @@ class Player {
         this.y = this.game.height - 60;
         this.width = 50;
         this.height = 50;
-        this.speed = 10;
+        this.speed = 6;
         this.dx = 0;
         this.dy = 0;
         this.gravity = 0.5;
@@ -18,6 +18,9 @@ class Player {
         this.lastShot = Date.now();
         this.facingDirection = 'right'; 
         this.immunity='false';
+        this.weapons = [new ranger(this), new shotgun(this)];
+        this.currentWeaponIndex = 0;
+        this.currentWeapon = this.weapons[this.currentWeaponIndex];
     }
 
     initControls() {
@@ -38,7 +41,7 @@ class Player {
                 this.dy = this.jumpStrength;
                 this.isJumping = true;
             }
-            if (e.key === 'f') this.shoot();
+            if (e.key === 'f') this.shoot(this.facingDirection);
             
         });
     }
@@ -65,11 +68,23 @@ class Player {
         ctx.fillRect(this.x, this.y - 10, this.width * (this.health / 100), 5);
     }
 
-    shoot() {
-        if (Date.now() - this.lastShot > this.shootDelay) {
-            this.projectiles.push(new Projectile(this.game, this.x + this.width / 2, this.y,this.facingDirection));
-            this.lastShot = Date.now();
-        }
+    shoot(direction) {
+        // if (Date.now() - this.lastShot > this.shootDelay) {
+        //     // for (let i = 0; i < this.spread; i++) {
+        //     //     const angle = (i - Math.floor(this.spread / 2)) * 0.1; // Spread effect
+        //     //     this.projectiles.push(new Projectile(this.game, this.x + this.width/2, this.y, this.facingDirection,this.speed,this.damage));
+        //     // }
+        //     this.projectiles.push(new Projectile(this.game, this.x + this.width/2, this.y, this.facingDirection,this.speed,this.damage));
+        //     this.lastShot = Date.now();
+        // }
+        this.currentWeapon.shoot(this.x, this.y, direction);
     }
+
+    switchWeapon() {
+        this.currentWeaponIndex = (this.currentWeaponIndex + 1) % this.weapons.length;
+        this.currentWeapon = this.weapons[this.currentWeaponIndex];
+        console.log(`Switched to ${this.currentWeapon.name}`);
+    }
+
 }
 

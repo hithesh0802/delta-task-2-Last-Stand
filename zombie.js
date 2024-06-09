@@ -4,6 +4,7 @@ class Zombie {
         this.width = 69.33;
         this.height = 67;
         this.image= document.getElementById('zombie');
+        this.imageright= document.getElementById('zombieright');
         this.spritewidth=this.width;
         this.spriteheight= this.height;
         this.frameX=0;
@@ -67,8 +68,10 @@ class Zombie {
     draw(ctx) {
         // ctx.fillStyle = 'green';
         // ctx.fillRect(this.x, this.y, this.width, this.height);
-
+        if(this.x > this.game.player.x)
         ctx.drawImage(this.image,this.frameX * this.spritewidth,0,this.spritewidth,this.spriteheight,this.x,this.y,this.width,this.height);
+        else
+        ctx.drawImage(this.imageright,this.frameX * this.spritewidth,0,this.spritewidth,this.spriteheight,this.x,this.y,this.width,this.height);
     }
 
     isCollidingWithPlayer(){

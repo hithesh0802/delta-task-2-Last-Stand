@@ -15,11 +15,14 @@ class Game {
         window.addEventListener('load',()=>{
             this.gameOver=!this.gameOver;
         })
-
+        
         // Event listener for pause/play
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
                 this.paused = !this.paused;
+            }
+            if (event.key === 'w') {
+                this.player.switchWeapon();
             }
         });
         this.loadLeaderboard();
@@ -79,7 +82,7 @@ class Game {
         let scores = JSON.parse(localStorage.getItem('scores')) || [];
         scores.push(this.score);
         scores.sort((a, b) => b - a);
-        scores = scores.slice(0, 5); // Keep top 5 scores
+        scores = scores.slice(0, 3); // top 3 scores
         localStorage.setItem('scores', JSON.stringify(scores));
     }
 
@@ -116,7 +119,6 @@ class Game {
                     // this.ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
                     // this.ctx.fill();
 
-                    // Remove zombie and projectile on collision
                     this.zombies = this.zombies.filter(z => z !== zombie);
                     this.score+=1;
                     this.player.projectiles = this.player.projectiles.filter(p => p !== projectile);
