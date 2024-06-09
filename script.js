@@ -5,12 +5,16 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let game = new Game(ctx, canvas.width, canvas.height);
+let lastTime =0;
 
-function gameLoop() {
+function gameLoop(timeStamp) {
+    const deltaTime= timeStamp- lastTime ;
+    // console.log(deltaTime);
+    lastTime= timeStamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    game.update();
+    game.update(deltaTime);
     game.draw();
     requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+gameLoop(0);

@@ -11,6 +11,7 @@ class Game {
         this.paused='false';
         this.score=0;
         this.gameOver='false';
+        this.speed=1.5;
         window.addEventListener('load',()=>{
             this.gameOver=!this.gameOver;
         })
@@ -36,11 +37,11 @@ class Game {
         // this.checkCollisions();    
     }
 
-    update() {
+    update(deltaTime) {
         if (this.paused || this.gameOver) return;
 
         this.player.update();
-        this.zombies.forEach(zombie => zombie.update());
+        this.zombies.forEach(zombie => zombie.update(deltaTime));
         this.powerups.forEach(powerup => powerup.update());
         this.player.projectiles.forEach(projectile => projectile.update());
         this.checkCollisions();

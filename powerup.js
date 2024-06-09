@@ -9,8 +9,7 @@ class powerup{
         this.type='immunity';
         this.active='true';
 
-        // Set a lifespan for the power-up
-        this.lifespan = 3000; // 5 seconds
+        this.lifespan = 3000; 
         this.creationTime = Date.now();
     }
 
@@ -37,9 +36,8 @@ class powerup{
     }
 
     update() {
-        // Check if the power-up has exceeded its lifespan
         if (Date.now() - this.creationTime >= this.lifespan) {
-            this.active = false; // Mark the power-up as inactive
+            this.active = false; 
         }
     }
 }
