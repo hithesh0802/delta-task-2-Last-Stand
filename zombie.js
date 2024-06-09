@@ -2,7 +2,7 @@ class Zombie {
     constructor(game) {
         this.game = game;
         this.width = 69.33;
-        this.height = 66;
+        this.height = 67;
         this.image= document.getElementById('zombie');
         this.spritewidth=this.width;
         this.spriteheight= this.height;
@@ -10,7 +10,7 @@ class Zombie {
         this.frametimer=0;
         this.fps= 5+ Math.random()*10;
         this.frameinterval= 1000/this.fps ;
-        this.maxframe=8;
+        this.maxframe=9;
         this.x = Math.random() < 0.5 ? 0 : this.game.width - this.width;
         this.y = this.game.height - this.height;
         this.speed = 1 + Math.random()*0.5;
