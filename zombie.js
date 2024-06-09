@@ -8,8 +8,8 @@ class Zombie {
         this.spriteheight= this.height;
         this.frameX=0;
         this.frametimer=0;
-        this.fps= 15;
-        this.frameinterval= 80800 ;
+        this.fps= 5+ Math.random()*10;
+        this.frameinterval= 1000/this.fps ;
         this.maxframe=8;
         this.x = Math.random() < 0.5 ? 0 : this.game.width - this.width;
         this.y = this.game.height - this.height;
@@ -25,7 +25,7 @@ class Zombie {
         } else {
             this.x -= this.speed;
         }
-        
+
         if(this.frametimer > this.frameinterval){
             this.frameX++;
             this.frametimer=0;
@@ -34,7 +34,7 @@ class Zombie {
         }
 
         if(this.frameX < this.maxframe){
-            setTimeout(this.frameX+=1,125); 
+            
             // this.markedfordeletion= true;
         }else{
             this.frameX=0;
