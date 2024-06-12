@@ -65,19 +65,12 @@ class Player {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         this.projectiles.forEach(projectile => projectile.draw(ctx));
 
+        this.inventory.draw(ctx);
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x, this.y - 10, this.width * (this.health / 100), 5);
     }
 
     shoot(direction) {
-        // if (Date.now() - this.lastShot > this.shootDelay) {
-        //     // for (let i = 0; i < this.spread; i++) {
-        //     //     const angle = (i - Math.floor(this.spread / 2)) * 0.1; // Spread effect
-        //     //     this.projectiles.push(new Projectile(this.game, this.x + this.width/2, this.y, this.facingDirection,this.speed,this.damage));
-        //     // }
-        //     this.projectiles.push(new Projectile(this.game, this.x + this.width/2, this.y, this.facingDirection,this.speed,this.damage));
-        //     this.lastShot = Date.now();
-        // }
         this.currentWeapon.shoot(this.x, this.y, direction);
     }
 

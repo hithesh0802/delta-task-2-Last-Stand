@@ -38,11 +38,11 @@ class Game {
             }
         });
 
-        this.ctx.canvas.addEventListener('click', (event) => {
+        this.ctx.canvas.addEventListener('click', (e) => {
             if (this.preparationPhase) {
                 const rect = this.ctx.canvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
                 this.player.placeItem(x, y);
             }
         });

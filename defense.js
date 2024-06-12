@@ -69,7 +69,7 @@ class Block extends defense{
     constructor(game, x, y) {
         super(game, x, y);
         this.color = 'grey';
-        this.durability = 2;
+        this.durability = 3;
     }
 
     draw(ctx) {
