@@ -29,7 +29,10 @@ class Game {
     }
 
     spawnZombie() {
+        if(Math.random() >= 0.5)
         this.zombies.push(new Zombie(this));
+        else
+        this.zombies.push(new climberZombie(this));
         setTimeout(() => this.spawnZombie(), 5000); 
         // this.checkCollisions();
     }
