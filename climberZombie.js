@@ -1,10 +1,10 @@
 class climberZombie {
     constructor(game) {
         this.game = game;
-        this.width = 77.7;
-        this.height = 163;
+        this.width = 262.2;
+        this.height = 236;
         this.image= document.getElementById('spriteright');
-        this.imageright= document.getElementById('sprite');
+        this.imageright= document.getElementById('spriteright');
         this.spritewidth=this.width;
         this.spriteheight= this.height;
         this.frameX=0;
