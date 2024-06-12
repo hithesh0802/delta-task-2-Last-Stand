@@ -40,9 +40,7 @@ class shotgun extends weapon {
     }
 
     shoot(x, y, direction) {
-        if (Date.now() - this.player.lastShot > this.player.shootDelay){
-            console.log(x,'hi');
-         
+        if (Date.now() - this.player.lastShot > this.player.shootDelay){         
             this.player.game.player.projectiles.push(new Projectile(this.player.game, x + this.player.width/2, y, direction, this.speed, this.damage));
             this.player.game.player.projectiles.push(new Projectile(this.player.game, x+ this.player.width/2, y, direction, this.speed, this.damage + 1));
             this.player.lastShot= Date.now();

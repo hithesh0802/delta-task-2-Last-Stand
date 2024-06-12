@@ -18,7 +18,6 @@ class Projectile {
             this.dx = -this.speed * Math.cos(Math.PI / 4); 
             this.dy = -this.speed * Math.sin(Math.PI / 4); 
         }else{
-            console.log(direction);
             if(this.damage ===5){
             if (direction === 'right') {
                 this.dx = this.speed * Math.cos(Math.PI / 4); 
