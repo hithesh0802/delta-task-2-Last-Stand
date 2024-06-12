@@ -52,22 +52,7 @@ class Zombie {
         }
     }
 
-    //update(deltaTime){
-    //     this.x-= this.speed;
-    //     if(this.frametimer > this.frameinterval){
-    //         this.frameX++;
-    //         this.frametimer=0;
-    //     }else{
-    //         this.frameTimer+= deltaTime;
-    //     }
-    //     if(this.frameX > this.maxframe){
-    //         this.markedfordeletion= true;
-    //     }
-    // }
-
     draw(ctx) {
-        // ctx.fillStyle = 'green';
-        // ctx.fillRect(this.x, this.y, this.width, this.height);
         if(this.x > this.game.player.x)
         ctx.drawImage(this.image,this.frameX * this.spritewidth,0,this.spritewidth,this.spriteheight,this.x,this.y,this.width,this.height);
         else
