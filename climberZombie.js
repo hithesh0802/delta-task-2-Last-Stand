@@ -1,17 +1,17 @@
 class climberZombie {
     constructor(game) {
         this.game = game;
-        this.width = 262.2;
-        this.height = 236;
-        this.image= document.getElementById('spriteright');
-        this.imageright= document.getElementById('spriteright');
+        this.width = 205.8;
+        this.height = 133;
+        this.image= document.getElementById('sprite');
+        this.imageright= document.getElementById('sprite');
         this.spritewidth=this.width;
         this.spriteheight= this.height;
         this.frameX=0;
         this.frametimer=0;
         this.fps= 5+ Math.random()*10;
         this.frameinterval= 1000/this.fps ;
-        this.maxframe=7;
+        this.maxframe=5;
         this.x = Math.random() < 0.5 ? 0 : this.game.width - this.width;
         this.y = this.game.height - this.height;
         this.speed = 1 + Math.random()*0.5;
