@@ -21,6 +21,7 @@ class Player {
         this.weapons = [new ranger(this), new shotgun(this)];
         this.currentWeaponIndex = 0;
         this.currentWeapon = this.weapons[this.currentWeaponIndex];
+        this.inventory = new inventory(this);
     }
 
     initControls() {
@@ -84,6 +85,14 @@ class Player {
         this.currentWeaponIndex = (this.currentWeaponIndex + 1) % this.weapons.length;
         this.currentWeapon = this.weapons[this.currentWeaponIndex];
         console.log(`Switched to ${this.currentWeapon.name}`);
+    }
+
+    placeItem(x, y) {
+        this.inventory.placeItem(x, y);
+    }
+
+    selectItem(item) {
+        this.inventory.selectItem(item);
     }
 
 }

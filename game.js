@@ -7,11 +7,14 @@ class Game {
         this.zombies = [];
         this.spawnZombie();
         this.powerups=[];
+        this.defensiveItems = [];
         this.spawnpowerup();
         this.paused='false';
         this.score=0;
         this.gameOver='false';
         this.speed=1.5;
+        this.preparationPhase = 'true';
+
         window.addEventListener('load',()=>{
             this.gameOver=!this.gameOver;
         })
@@ -23,6 +26,24 @@ class Game {
             }
             if (event.key === 'w') {
                 this.player.switchWeapon();
+            }
+            if (event.key === '1') {
+                this.player.selectItem('mine');
+            }
+            if (event.key === '2') {
+                this.player.selectItem('trap');
+            }
+            if (event.key === '3') {
+                this.player.selectItem('block');
+            }
+        });
+
+        this.ctx.canvas.addEventListener('click', (event) => {
+            if (this.preparationPhase) {
+                const rect = this.ctx.canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                this.player.placeItem(x, y);
             }
         });
         this.loadLeaderboard();
@@ -50,6 +71,7 @@ class Game {
         this.zombies.forEach(zombie => zombie.update(deltaTime));
         this.powerups.forEach(powerup => powerup.update());
         this.player.projectiles.forEach(projectile => projectile.update());
+        this.defensiveItems.forEach(item => item.update());
         this.checkCollisions();
     }
 
@@ -57,6 +79,7 @@ class Game {
         this.player.draw(this.ctx);
         this.zombies.forEach(zombie => zombie.draw(this.ctx));
         this.powerups.forEach(powerup => powerup.draw(this.ctx));
+        this.defensiveItems.forEach(item => item.draw(this.ctx));
          // Draw score
          this.ctx.fillStyle = 'white';
          this.ctx.font = '20px Arial';
@@ -136,7 +159,21 @@ class Game {
                 powerup.applypowerup();
                 this.powerups.splice(powerupIndex, 1); // Remove the power-up after applying effect
             }
-        });        
+        }); 
+        
+        this.defensiveItems.forEach((item, itemIndex) => {
+            this.zombies.forEach((zombie, zombieIndex) => {
+                if (this.isColliding(item, zombie)) {
+                    item.applyEffect(zombie);
+                    if (item.markedForDeletion) {
+                        this.defensiveItems.splice(itemIndex, 1);
+                    }
+                    if (zombie.markedForDeletion) {
+                        this.zombies.splice(zombieIndex, 1);
+                    }
+                }
+            });
+        });
     }
 
     isCollidingpowerup(player, powerup){
