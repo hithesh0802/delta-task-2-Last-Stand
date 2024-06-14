@@ -14,7 +14,7 @@ class climberZombie {
         this.maxframe=5;
         this.x = Math.random() < 0.5 ? 0 : this.game.width - this.width;
         this.y = this.game.height - this.height;
-        this.speed = 1 + Math.random()*0.5;
+        this.speed = 1.5 + Math.random()*0.5;
         this.markedfordeletion='false';
         this.count=0;
     }
@@ -50,20 +50,15 @@ class climberZombie {
                 this.game.endGame();               
             }
         }
-    }
 
-    //update(deltaTime){
-    //     this.x-= this.speed;
-    //     if(this.frametimer > this.frameinterval){
-    //         this.frameX++;
-    //         this.frametimer=0;
-    //     }else{
-    //         this.frameTimer+= deltaTime;
-    //     }
-    //     if(this.frameX > this.maxframe){
-    //         this.markedfordeletion= true;
-    //     }
-    // }
+        this.game.assistance.forEach(assist =>{
+            if(this.isCollidingCannon(assist)){              
+                this.markedfordeletion=true;
+                assist.health -= 25; 
+                this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
+            }
+        })
+    }
 
     draw(ctx) {
         // ctx.fillStyle = 'green';
@@ -82,5 +77,14 @@ class climberZombie {
             this.y < player.y + player.height &&
             this.y + this.height > player.y
         );
+    }
+
+    isCollidingCannon(assist){
+        return(
+            this.x < assist.x + assist.width &&
+            this.x + this.width > assist.x &&
+            this.y < assist.y + assist.height &&
+            this.y + this.height > assist.y
+        )
     }
 }

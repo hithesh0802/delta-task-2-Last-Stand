@@ -50,6 +50,14 @@ class Zombie {
                 this.game.endGame();               
             }
         }
+
+        this.game.assistance.forEach(assist =>{
+            if(this.isCollidingCannon(assist)){              
+                this.markedfordeletion=true;
+                assist.health -= 25; 
+                this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
+            }
+        })
     }
 
     draw(ctx) {
@@ -67,5 +75,14 @@ class Zombie {
             this.y < player.y + player.height &&
             this.y + this.height > player.y
         );
+    }
+
+    isCollidingCannon(assist){
+        return(
+            this.x < assist.x + assist.width &&
+            this.x + this.width > assist.x &&
+            this.y < assist.y + assist.height &&
+            this.y + this.height > assist.y
+        )
     }
 }

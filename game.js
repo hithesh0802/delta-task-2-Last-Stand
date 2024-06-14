@@ -4,6 +4,7 @@ class Game {
         this.width = width;
         this.height = height;
         this.player = new Player(this);
+        this.assistance= [new Shooterassist(this,this.width*0.4, this.height-30,'left') , new Shooterassist(this, this.width*0.6, this.height-30,'right')]
         this.zombies = [];
         this.spawnZombie();
         this.powerups=[];
@@ -43,6 +44,7 @@ class Game {
                 const rect = this.ctx.canvas.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
+                if(y>= this.height - 30)
                 this.player.placeItem(x, y);
             }
         });
@@ -54,7 +56,7 @@ class Game {
         this.zombies.push(new Zombie(this));
         else
         this.zombies.push(new climberZombie(this));
-        setTimeout(() => this.spawnZombie(), 5000); 
+        setTimeout(() => this.spawnZombie(), 4500); 
         // this.checkCollisions();
     }
 
@@ -67,7 +69,7 @@ class Game {
     update(deltaTime) {
         if (this.paused || this.gameOver) return;
 
-        this.player.update();
+        this.player.update(deltaTime);
         this.zombies.forEach(zombie => zombie.update(deltaTime));
         this.powerups.forEach(powerup => powerup.update());
         this.player.projectiles.forEach(projectile => projectile.update());
@@ -76,6 +78,9 @@ class Game {
     }
 
     draw() {
+        this.assistance.forEach(assist =>{
+            assist.draw(this.ctx);
+        })
         this.player.draw(this.ctx);
         this.zombies.forEach(zombie => zombie.draw(this.ctx));
         this.powerups.forEach(powerup => powerup.draw(this.ctx));
