@@ -1,7 +1,7 @@
 class Zombie {
     constructor(game) {
         this.game = game;
-        this.width = 1;
+        this.width = 100;
         this.height = 80;
         this.image= document.getElementById('zombie');
         this.imageright= document.getElementById('zombieright');

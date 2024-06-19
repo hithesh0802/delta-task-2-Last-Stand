@@ -54,16 +54,20 @@ class Game {
     }
 
     spawnZombie() {
+        if(!this.paused){
         if(Math.random() >= 0.5)
         this.zombies.push(new Zombie(this));
         else
         this.zombies.push(new climberZombie(this));
         setTimeout(() => this.spawnZombie(), 4500); 
     }
+    }
 
     spawnpowerup(){
+        if(!this.paused ){
         this.powerups.push(new powerup(this));
-        setTimeout(() => this.spawnpowerup(), 15000);   
+        setTimeout(() => this.spawnpowerup(), 15000);  
+        } 
     }
 
     update(deltaTime) {
