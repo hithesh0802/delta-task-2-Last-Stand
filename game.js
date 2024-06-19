@@ -196,7 +196,7 @@ class Game {
     isCollidingpowerup(player, powerup){
         return (
             ((player.x  <= powerup.x && player.x + player.width  >= powerup.x) ||
-            player.x >= powerup.x && player.x >= powerup.x + powerup.width)&&
+            player.x >= powerup.x && player.x <= powerup.x + powerup.width) &&
             player.y+player.width >= powerup.y
         );
     }
