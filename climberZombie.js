@@ -1,12 +1,12 @@
 class climberZombie {
     constructor(game) {
         this.game = game;
-        this.width = 102.8;
-        this.height = 67;
+        this.width = 125;
+        this.height = 90;
         this.image= document.getElementById('spriteright');
         this.imageright= document.getElementById('sprite');
-        this.spritewidth=this.width;
-        this.spriteheight= this.height;
+        this.spritewidth=102.8;
+        this.spriteheight= 67;
         this.frameX=0;
         this.frametimer=0;
         this.fps= 5+ Math.random()*10;
@@ -18,6 +18,7 @@ class climberZombie {
         this.markedfordeletion='false';
         this.count=0;
         this.freeze='false';
+        this.hitSound=new Audio('mixkit-sword-strikes-armor-2765.wav')
     }
 
     update(deltaTime) {
@@ -44,6 +45,8 @@ class climberZombie {
 
         if (this.isCollidingWithPlayer()) {
             this.markedfordeletion=true;
+            this.hitSound.currentTime=0;
+            this.hitSound.play();
             this.game.player.health -= 25; 
             this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
 
@@ -55,6 +58,8 @@ class climberZombie {
         this.game.assistance.forEach(assist =>{
             if(this.isCollidingCannon(assist)){              
                 this.markedfordeletion=true;
+                this.hitSound.currentTime=0;
+                this.hitSound.play();
                 assist.health -= 25; 
                 this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
             }
@@ -88,5 +93,14 @@ class climberZombie {
             this.y < assist.y + assist.height &&
             this.y + this.height > assist.y
         )
+    }
+
+    playAudio(){
+        const audio= document.getElementById('zombieKill');
+        audio.play();
+        setTimeout(()=>{
+            audio.pause();
+            audio.currentTime=0; 
+        },500)
     }
 }

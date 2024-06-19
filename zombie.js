@@ -1,12 +1,12 @@
 class Zombie {
     constructor(game) {
         this.game = game;
-        this.width = 69.33;
-        this.height = 67;
+        this.width = 100;
+        this.height = 80;
         this.image= document.getElementById('zombie');
         this.imageright= document.getElementById('zombieright');
-        this.spritewidth=this.width;
-        this.spriteheight= this.height;
+        this.spritewidth=69.33;
+        this.spriteheight= 67;
         this.frameX=0;
         this.frametimer=0;
         this.fps= 5+ Math.random()*10;
@@ -18,15 +18,19 @@ class Zombie {
         this.markedfordeletion='false';
         this.count=0;
         this.freeze='false';
+        this.stopped=0;
+        this.hitSound = new Audio('mixkit-sword-strikes-armor-2765.wav');
     }
 
     update(deltaTime) {
         if(this.freeze==='false'){
-        if (this.x < this.game.player.x) {
-            this.x += this.speed;
-        } else {
-            this.x -= this.speed;
-        }
+            if(!this.stopped){
+                if (this.x < this.game.player.x) {
+                    this.x += this.speed;
+                } else {
+                    this.x -= this.speed;
+                }
+            }
 
         if(this.frametimer > this.frameinterval){
             this.frameX++;
@@ -44,6 +48,8 @@ class Zombie {
 
         if (this.isCollidingWithPlayer()) {
             this.markedfordeletion=true;
+            this.hitSound.currentTime=0;
+            this.hitSound.play();
             this.game.player.health -= 25; 
             this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
 
@@ -55,11 +61,12 @@ class Zombie {
         this.game.assistance.forEach(assist =>{
             if(this.isCollidingCannon(assist)){              
                 this.markedfordeletion=true;
+                this.hitSound.currentTime=0;
+                this.hitSound.play();
                 assist.health -= 25; 
                 this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
             }
         })
-
     }
     }
 

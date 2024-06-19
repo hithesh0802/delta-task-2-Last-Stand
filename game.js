@@ -13,11 +13,13 @@ class Game {
         this.paused='false';
         this.score=0;
         this.gameOver='false';
-        this.speed=1.5;
+        this.speed=2;
         this.preparationPhase = 'true';
-
+        this.hitSound=new Audio('mixkit-sword-strikes-armor-2765.wav');
+        this.powered=new Audio('mixkit-quick-positive-video-game-notification-interface-265_4afHzuGq.wav');
         window.addEventListener('load',()=>{
             this.gameOver=!this.gameOver;
+            this.paused=!this.paused;
         })
         
         // Event listener for pause/play
@@ -57,13 +59,11 @@ class Game {
         else
         this.zombies.push(new climberZombie(this));
         setTimeout(() => this.spawnZombie(), 4500); 
-        // this.checkCollisions();
     }
 
     spawnpowerup(){
         this.powerups.push(new powerup(this));
-        setTimeout(() => this.spawnpowerup(), 15000);
-        // this.checkCollisions();    
+        setTimeout(() => this.spawnpowerup(), 15000);   
     }
 
     update(deltaTime) {
@@ -106,6 +106,13 @@ class Game {
             this.ctx.fillText('Game Over', this.width / 2 - 100, this.height / 2);
             this.ctx.font = '20px Arial';
             this.ctx.fillText(`Final Score: ${this.score}`, this.width / 2 - 60, this.height / 2 + 40);
+            this.ctx.font='15px Arial';
+            this.ctx.fillText(`LeaderBoard`,this.width/2 -40,this.height/2 + 60);
+            this.ctx.font='10px Arial';
+            this.leaderboard.forEach((score,index)=>{
+                this.ctx.fillText(`${Number(index)+1}. ${score}`,this.width/2 -40 ,this.height/2 + 80 + index*15);
+            })
+
         }
     }
 
@@ -133,34 +140,33 @@ class Game {
         this.gameOver = 'true';
         this.saveScore();
         this.loadLeaderboard();
-        this.displayLeaderboard();
-        
-    }
+        this.displayLeaderboard(); 
 
+        const audio=document.getElementById('endgame');
+        audio.play();
+        setTimeout(()=>{
+            audio.pause();
+            audio.currentTime=0;
+        },2000) ;
+    }
 
     checkCollisions() {
         this.player.projectiles.forEach(projectile => {
             this.zombies.forEach(zombie => {
                 if (this.isColliding(projectile, zombie)) {
-                    
-                    // Highlight the zombie and projectile on collision
-                    // this.ctx.fillStyle = 'yellow';
-                    // this.ctx.fillRect(zombie.x, zombie.y, zombie.width, zombie.height);
-                    // this.ctx.beginPath();
-                    // this.ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
-                    // this.ctx.fill();
-
+                    this.hitSound.currentTime=0;
+                    this.hitSound.play();
                     this.zombies = this.zombies.filter(z => z !== zombie);
                     this.score+=1;
                     this.player.projectiles = this.player.projectiles.filter(p => p !== projectile);
                 }
             });
-            // console.log(this.powerups);
         });
 
         this.powerups.forEach((powerup, powerupIndex) => {
             if (this.isCollidingpowerup(this.player, powerup) && powerup.active) {
-                console.log('Collision detected!',this.player.health);
+                this.powered.currentTime=0;
+                this.powered.play();
                 powerup.applypowerup();
                 this.powerups.splice(powerupIndex, 1); // powerup collide player
             }
@@ -188,11 +194,10 @@ class Game {
     }
 
     isCollidingpowerup(player, powerup){
-        //console.log('hi',player.x,powerup.x,powerup.y,player.y,player.width);
         return (
             ((player.x  <= powerup.x && player.x + player.width  >= powerup.x) ||
-            player.x >= powerup.x && player.x - player.width <= powerup.x )&&
-            player.y >= powerup.y+ player.width
+            player.x >= powerup.x && player.x >= powerup.x + powerup.width)&&
+            player.y+player.width >= powerup.y
         );
     }
 

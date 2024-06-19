@@ -2,10 +2,10 @@ class Player {
     constructor(game) {
         this.game = game;
         this.x = this.game.width / 2;
-        this.y = this.game.height - 60;
-        this.width = 50;
-        this.height = 50;
-        this.speed = 6;
+        this.y = this.game.height - 115;
+        this.width = 100;
+        this.height = 100;
+        this.speed = 7;
         this.dx = 0;
         this.dy = 0;
         this.gravity = 0.5;
@@ -23,7 +23,7 @@ class Player {
         this.spritelength=172.33;
         this.spritedepth=173;
         this.framehorizontal=0;
-        this.frameMax=6;
+        this.frameMax=5;
         this.ftimer=0;
         this.finterval=1000/(5 + 10*Math.random());
         this.shootDelay = 500; 
@@ -141,10 +141,9 @@ class Player {
             ctx.drawImage(this.jumpimageleft,this.frameX * this.spritewidth,0,this.spritewidth,this.spriteheight,this.x,this.y,this.width,this.height);
         }
         this.projectiles.forEach(projectile => projectile.draw(ctx));
-       
         this.inventory.draw(ctx);
         ctx.fillStyle = 'red';
-        ctx.fillRect(this.x, this.y - 10, this.width * (this.health / 100), 5);
+        ctx.fillRect(this.x, this.y - 5, this.width * (this.health / 100), 5);
     }
 
     shoot(direction) {
@@ -164,6 +163,4 @@ class Player {
     selectItem(item) {
         this.inventory.selectItem(item);
     }
-
 }
-

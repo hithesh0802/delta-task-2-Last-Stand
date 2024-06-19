@@ -3,8 +3,8 @@ class inventory {
         this.player = player;
         this.items = {
             mine: 5,
-            trap: 5,
-            block: 5
+            trap: 4,
+            block: 3
         };
         this.selectedItem = 'mine';
     }

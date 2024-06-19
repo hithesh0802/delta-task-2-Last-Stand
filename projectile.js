@@ -4,7 +4,7 @@ class Projectile {
         this.x = x;
         this.y = y;
         this.direction = direction; 
-        this.radius = 5;
+        this.radius = 7;
         this.damage = damage;
         this.speed = speed;
         this.gravity = 0.2;
@@ -36,14 +36,11 @@ class Projectile {
             }
         }
         }
-
     }
 
     update() {
         this.x += this.dx;
         this.dy += this.gravity;
-
-        // Remove the projectile if out of bounds
         if (this.x < 0 || this.x > this.game.width || this.y < 0 || this.y > this.game.height) {
             this.game.player.projectiles = this.game.player.projectiles.filter(p => p !== this);
             return;

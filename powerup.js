@@ -3,9 +3,9 @@ class powerup{
         this.game=game;
         this.ctx= this.game.ctx;
         this.x= this.game.width / 2;
-        this.y= this.game.height - 100;
-        this.width=30;
-        this.height=30;
+        this.y= this.game.height - 155;
+        this.width=35;
+        this.height=35;
         this.type=(Math.random() > 0.4)?'immunity':'freeze';
         this.active='true';
         this.image= document.getElementById('health');
@@ -18,7 +18,7 @@ class powerup{
     draw(ctx){
         if(this.active && this.type==='immunity'){
             ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
-        }else if(this.type==='freeze' && this.freeze){
+        }else if(this.type==='freeze' && this.active){
             ctx.drawImage(this.freezeimage,this.x,this.y,this.width,this.height);
         } 
     }
@@ -32,13 +32,8 @@ class powerup{
             this.game.player.health +=25;
         }
         this.game.player.draw(this.ctx);
-        setTimeout(() => {
-            this.game.player.immunity = false;    
-        }
-        , 10000);
         this.active = false;
         }else{
-            console.log('freezed');
             this.game.zombies.forEach(element => {
                 element.freeze='true';
             });
@@ -50,6 +45,7 @@ class powerup{
                 })
             },3000)
             this.freeze='false';
+            this.active='false';
         }
     }
 

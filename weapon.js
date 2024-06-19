@@ -19,7 +19,7 @@ class ranger extends weapon{
         this.player=player;
         this.name = "ranger";
         this.damage = 10;
-        this.speed = 5;
+        this.speed = 6;
     }
 
     shoot(x, y, direction) {
@@ -35,7 +35,7 @@ class shotgun extends weapon {
         super(player);
         this.name = "shotgun";
         this.damage = 5;
-        this.speed = 6;
+        this.speed = 7;
         this.spread = 3; 
     }
 
