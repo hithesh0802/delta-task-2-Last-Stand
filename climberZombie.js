@@ -18,7 +18,7 @@ class climberZombie {
         this.markedfordeletion='false';
         this.count=0;
         this.freeze='false';
-        this.hitSound=new Audio('mixkit-sword-strikes-armor-2765.wav')
+        this.hitSound=new Audio('mixkit-video-game-blood-pop-2361.wav')
     }
 
     update(deltaTime) {

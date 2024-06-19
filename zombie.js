@@ -1,7 +1,7 @@
 class Zombie {
     constructor(game) {
         this.game = game;
-        this.width = 100;
+        this.width = 1;
         this.height = 80;
         this.image= document.getElementById('zombie');
         this.imageright= document.getElementById('zombieright');
@@ -19,7 +19,7 @@ class Zombie {
         this.count=0;
         this.freeze='false';
         this.stopped=0;
-        this.hitSound = new Audio('mixkit-sword-strikes-armor-2765.wav');
+        this.hitSound = new Audio('mixkit-video-game-blood-pop-2361.wav');
     }
 
     update(deltaTime) {
