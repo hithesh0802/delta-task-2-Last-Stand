@@ -17,10 +17,11 @@ class Zombie {
         this.speed = 1 + Math.random()*0.5;
         this.markedfordeletion='false';
         this.count=0;
+        this.freeze='false';
     }
 
     update(deltaTime) {
-        
+        if(this.freeze==='false'){
         if (this.x < this.game.player.x) {
             this.x += this.speed;
         } else {
@@ -58,6 +59,8 @@ class Zombie {
                 this.game.zombies = this.game.zombies.filter(z => z.markedfordeletion !== true); 
             }
         })
+
+    }
     }
 
     draw(ctx) {

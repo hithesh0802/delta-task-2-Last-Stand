@@ -68,7 +68,7 @@ class Trap extends defense{
 class Block extends defense{
     constructor(game, x, y) {
         super(game, x, y);
-        this.color = 'grey';
+        this.color = 'brown';
         this.durability = 3;
     }
 
@@ -83,9 +83,20 @@ class Block extends defense{
 
     applyEffect(zombie) {
         this.durability -= 1; 
+        if(zombie.maxframe ===5){
+            for(let i=0;i<10;i++)
+            zombie.y -= 25;
+
+            console.log(zombie.y);
+            for(let i=0;i<10;i++){
+                zombie.y += 25;
+            }
+        }else{
+            zombie.markedForDeletion = true;
+        }
         if (this.durability <= 0) {
             this.markedForDeletion = true;
         }
-        zombie.markedForDeletion = true;
+        
     }
 }

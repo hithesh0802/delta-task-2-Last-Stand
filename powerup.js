@@ -6,22 +6,25 @@ class powerup{
         this.y= this.game.height - 100;
         this.width=30;
         this.height=30;
-        this.type='immunity';
+        this.type=(Math.random() > 0.4)?'immunity':'freeze';
         this.active='true';
         this.image= document.getElementById('health');
+        this.freezeimage=document.getElementById('freezeimage');
         this.lifespan = 3000; 
+        this.freeze='false';
         this.creationTime = Date.now();
     }
 
     draw(ctx){
-        if(this.active){
-            // ctx.fillStyle='purple';
-            // ctx.fillRect(this.x,this.y,this.width,this.height);
+        if(this.active && this.type==='immunity'){
             ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
-        }    
+        }else if(this.type==='freeze' && this.freeze){
+            ctx.drawImage(this.freezeimage,this.x,this.y,this.width,this.height);
+        } 
     }
 
     applypowerup(){
+        if(this.type === 'immunity'){
         this.game.player.immunity='true';
         if(this.game.player.health > 75){
             this.game.player.health=100;
@@ -34,6 +37,20 @@ class powerup{
         }
         , 10000);
         this.active = false;
+        }else{
+            console.log('freezed');
+            this.game.zombies.forEach(element => {
+                element.freeze='true';
+            });
+            this.freeze='true';
+            this.game.player.draw(this.ctx);
+            setTimeout(()=>{
+                this.game.zombies.forEach(element=>{
+                    element.freeze='false';
+                })
+            },3000)
+            this.freeze='false';
+        }
     }
 
     update() {

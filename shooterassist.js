@@ -27,9 +27,13 @@ class Shooterassist {
             }
             this.shoot(this.facingDirection);
         },8000)
+        this.markedforDeletion='false';
     }
 
     update() {
+        if(this.health <=0){
+            this.markedforDeletion='true';
+        }
         this.projectiles.forEach(projectile => projectile.update());
         this.projectiles = this.projectiles.filter(projectile => projectile.y > 0);
     }

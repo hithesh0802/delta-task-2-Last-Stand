@@ -162,7 +162,7 @@ class Game {
             if (this.isCollidingpowerup(this.player, powerup) && powerup.active) {
                 console.log('Collision detected!',this.player.health);
                 powerup.applypowerup();
-                this.powerups.splice(powerupIndex, 1); // Remove the power-up after applying effect
+                this.powerups.splice(powerupIndex, 1); // powerup collide player
             }
         }); 
         
@@ -179,6 +179,12 @@ class Game {
                 }
             });
         });
+
+        this.assistance.forEach((assist,index) =>{
+            if(assist.health <=0 || assist.markedforDeletion==='true'){
+                this.assistance.splice(index,1);
+            }
+        })
     }
 
     isCollidingpowerup(player, powerup){

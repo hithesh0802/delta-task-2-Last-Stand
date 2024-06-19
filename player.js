@@ -13,7 +13,9 @@ class Player {
         this.isJumping = false;
         this.health = 100;
         this.imgright=document.getElementById('player');
+        this.imgleft=document.getElementById('playerRight');
         this.jumpimage=document.getElementById('jumpright');
+        this.jumpimageleft=document.getElementById('jumpleft');
         this.initControls();
         this.projectiles = [];
         this.spritewidth=170.75;
@@ -44,7 +46,13 @@ class Player {
     initControls() {
         window.addEventListener('keyup', (e) => {
             this.moving=false;
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') this.dx = 0;
+            if (e.key === 'ArrowRight') {
+                this.dx = 0;
+                this.facingDirection='right';
+            }else if( e.key === 'ArrowLeft'){
+                this.dx = 0;
+                this.facingDirection='left';
+            }
         });
 
         window.addEventListener('keydown', (e) => {
@@ -123,13 +131,17 @@ class Player {
     }
 
     draw(ctx) {
-        if(this.isJumping){
+        if(this.facingDirection==='right' && !this.isJumping){
+            ctx.drawImage(this.imgright,this.framehorizontal * this.spritelength,0,this.spritelength,this.spritedepth,this.x,this.y,this.width,this.height);
+        }else if(this.isJumping && this.facingDirection==='right'){
             ctx.drawImage(this.jumpimage,this.frameX * this.spritewidth,0,this.spritewidth,this.spriteheight,this.x,this.y,this.width,this.height);
-        }else
-        ctx.drawImage(this.imgright,this.framehorizontal * this.spritelength,0,this.spritelength,this.spritedepth,this.x,this.y,this.width,this.height);
-
+        }else if(this.facingDirection ==='left' && !this.isJumping){
+            ctx.drawImage(this.imgleft,this.framehorizontal * this.spritelength,0,this.spritelength,this.spritedepth,this.x,this.y,this.width,this.height);
+        }else if(this.facingDirection ==='left' && this.isJumping){
+            ctx.drawImage(this.jumpimageleft,this.frameX * this.spritewidth,0,this.spritewidth,this.spriteheight,this.x,this.y,this.width,this.height);
+        }
         this.projectiles.forEach(projectile => projectile.draw(ctx));
-
+       
         this.inventory.draw(ctx);
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x, this.y - 10, this.width * (this.health / 100), 5);
@@ -145,7 +157,7 @@ class Player {
         console.log(`Switched to ${this.currentWeapon.name}`);
     }
 
-    placeItem(x, y) {
+    placeItem(x, y){
         this.inventory.placeItem(x, y);
     }
 
