@@ -36,6 +36,7 @@ class Game {
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
                 this.paused = !this.paused;
+                console.log(this.paused);
             }
             if (event.key === 'w') {
                 this.player.switchWeapon();
@@ -62,20 +63,20 @@ class Game {
     }
 
     spawnZombie() {
-        if(!this.paused ){
+        if(this.paused===false ){
         if(Math.random() >= 0.5)
         this.zombies.push(new Zombie(this));
         else
         this.zombies.push(new climberZombie(this));
+        }
         setTimeout(() => this.spawnZombie(), 1700); 
-    }
     }
 
     spawnpowerup(){
-        if(!this.paused){
+        if(this.paused===false){
         this.powerups.push(new powerup(this));
+        }
         setTimeout(() => this.spawnpowerup(), 18000);  
-        } 
     }
 
     update(deltaTime) {

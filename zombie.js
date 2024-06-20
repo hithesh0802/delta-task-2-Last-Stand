@@ -14,7 +14,7 @@ class Zombie {
         this.maxframe=9;
         this.x = Math.random() < 0.5 ? 0 : this.game.width - this.width;
         this.y = this.game.height - this.height;
-        this.speed = 1.5 + Math.random()*0.5;
+        this.speed = 1.7 + Math.random()*0.5;
         this.markedfordeletion='false';
         this.count=0;
         this.freeze='false';

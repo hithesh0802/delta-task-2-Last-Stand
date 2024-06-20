@@ -14,7 +14,7 @@ class climberZombie {
         this.maxframe=5;
         this.x = Math.random() < 0.5 ? 0 : this.game.width - this.width;
         this.y = this.game.height - this.height;
-        this.speed = 2 + Math.random()*0.5;
+        this.speed = 2.3 + Math.random()*0.5;
         this.markedfordeletion='false';
         this.count=0;
         this.freeze='false';
