@@ -6,22 +6,32 @@ class Game {
         this.player = new Player(this);
         this.assistance= [new Shooterassist(this,this.width*0.4, this.height-30,'left') , new Shooterassist(this, this.width*0.6, this.height-30,'right')]
         this.zombies = [];
-        this.spawnZombie();
         this.powerups=[];
         this.defensiveItems = [];
-        this.spawnpowerup();
-        this.paused='false';
+        this.paused=false;
         this.score=0;
-        this.gameOver='false';
+        this.gameOver=false;
         this.speed=2;
+        this.time=false;
         this.preparationPhase = 'true';
         this.hitSound=new Audio('mixkit-sword-strikes-armor-2765.wav');
         this.powered=new Audio('mixkit-quick-positive-video-game-notification-interface-265_4afHzuGq.wav');
         window.addEventListener('load',()=>{
-            this.gameOver=!this.gameOver;
-            this.paused=!this.paused;
+            // this.gameOver=!this.gameOver;
+            // this.paused=!this.paused;
+            this.ctx.fillStyle = 'white';
+            this.ctx.font='20 px Arial';
+            this.ctx.fillText('Preparation phase', 10 , 180);
+            // setTimeout(()=>{    
+            //     this.ctx.clearRect(0, 0, this.width, this.height);
+            // },10000)
         })
         
+        setTimeout(()=>{
+            this.spawnZombie();  
+            this.spawnpowerup();
+            this.time=true;
+        },10000)
         // Event listener for pause/play
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
@@ -42,31 +52,29 @@ class Game {
         });
 
         this.ctx.canvas.addEventListener('click', (e) => {
-            if (this.preparationPhase) {
                 const rect = this.ctx.canvas.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 if(y>= this.height - 30)
                 this.player.placeItem(x, y);
-            }
-        });
+            });
         this.loadLeaderboard();
     }
 
     spawnZombie() {
-        if(!this.paused){
+        if(!this.paused ){
         if(Math.random() >= 0.5)
         this.zombies.push(new Zombie(this));
         else
         this.zombies.push(new climberZombie(this));
-        setTimeout(() => this.spawnZombie(), 4500); 
+        setTimeout(() => this.spawnZombie(), 1700); 
     }
     }
 
     spawnpowerup(){
-        if(!this.paused ){
+        if(!this.paused){
         this.powerups.push(new powerup(this));
-        setTimeout(() => this.spawnpowerup(), 15000);  
+        setTimeout(() => this.spawnpowerup(), 18000);  
         } 
     }
 
@@ -93,13 +101,17 @@ class Game {
          this.ctx.fillStyle = 'white';
          this.ctx.font = '20px Arial';
          this.ctx.fillText(`Score: ${this.score}`, 10, 20);
-         
+         if(!this.time)
+         this.ctx.fillText('Preparation Phase',this.width /2 -60,40);
+
          if (this.paused) {
              this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
              this.ctx.fillRect(0, 0, this.width, this.height);
              this.ctx.fillStyle = 'white';
              this.ctx.font = '40px Arial';
-             this.ctx.fillText('Paused', this.width / 2 - 60, this.height / 2);
+             this.ctx.fillText('Paused', this.width / 2 -40 , this.height / 2);
+             this.ctx.font='20px Arial';
+             this.ctx.fillText("Press key 'p' to play", this.width/2 -60, this.height/2 + 40);
         }
 
         if (this.gameOver) {
