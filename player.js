@@ -43,8 +43,8 @@ class Player {
         this.moving=false;
         this.ammo1 = 30; 
         this.ammo2= 20;
-        this.maxAmmo1 = 30;
-        this.maxAmmo2= 20;
+        this.maxAmmo1 = 100;
+        this.maxAmmo2= 60;
         this.fuel = 100; 
         this.maxFuel = 100;
     }
@@ -85,7 +85,19 @@ class Player {
                 }
             }
             }
-            if (e.key === 'f') this.shoot(this.facingDirection);
+
+            if (e.key === 'f') {
+                if((this.currentWeaponIndex ===0 && this.ammo1 > 0) || (this.currentWeaponIndex ===1 && this.ammo2 > 0))
+                this.shoot(this.facingDirection);
+
+                if(this.currentWeaponIndex ===0){
+                    if(this.ammo1 > 0)
+                    this.ammo1 -=1;
+                }else{
+                    if(this.ammo2 >0)
+                    this.ammo2 -=1;
+                }
+            }
             
         });
     }
@@ -146,9 +158,19 @@ class Player {
         ctx.fillStyle = 'white';
         ctx.font='15px "Press start 2P"';
         ctx.fillText('Fuel',10,62);
+        if(this.currentWeaponIndex === 0)
+        ctx.fillText(`ShotGun`,10, 82);
+        else
+        ctx.fillText(`Ranger`,10, 82);
 
         ctx.fillStyle = 'blue';
         ctx.fillRect(70, 50, this.fuel, 10);
+
+        ctx.fillStyle='orange';
+        if(this.currentWeaponIndex === 0)
+            ctx.fillRect(120,70,this.ammo1 * 3.33, 10);
+        else
+            ctx.fillRect(110,70,this.ammo2 * 5, 10);
 
         if(this.facingDirection==='right' && !this.isJumping){
             ctx.drawImage(this.imgright,this.framehorizontal * this.spritelength,0,this.spritelength,this.spritedepth,this.x,this.y,this.width,this.height);

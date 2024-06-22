@@ -41,6 +41,18 @@ class Game {
             }
         },1000)
 
+        setInterval(()=>{   
+            if(this.player.currentWeaponIndex === 0){
+                if(this.player.ammo1 < this.player.maxAmmo1){
+                    this.player.ammo1+= 1;
+                }
+            }else {
+                if(this.player.ammo2 < this.player.maxAmmo2){
+                    this.player.ammo2+= 1;
+                }
+            }
+        },3000)
+
         // Event listener for pause/play
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
@@ -120,10 +132,10 @@ class Game {
              this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
              this.ctx.fillRect(0, 0, this.width, this.height);
              this.ctx.fillStyle = 'white';
-             this.ctx.font = '40px Arial';
-             this.ctx.fillText('Paused', this.width / 2 -40 , this.height / 2);
-             this.ctx.font='20px Arial';
-             this.ctx.fillText("Press key 'p' to play", this.width/2 -60, this.height/2 + 40);
+             this.ctx.font = '40px "Press Start 2P"';
+             this.ctx.fillText('Paused', this.width / 2 -80 , this.height / 2);
+             this.ctx.font='20px "Press Start 2P"';
+             this.ctx.fillText("Press key 'P' to play", this.width/2 -140, this.height/2 + 40);
         }
 
         if (this.gameOver) {
@@ -131,14 +143,14 @@ class Game {
             this.ctx.fillRect(0, 0, this.width, this.height);
             this.ctx.fillStyle = 'white';
             this.ctx.font = '40px "Press Start 2P"';
-            this.ctx.fillText('Game Over', this.width / 2 - 100, this.height / 2);
-            this.ctx.font = '20px Arial';
-            this.ctx.fillText(`Final Score: ${this.score}`, this.width / 2 - 60, this.height / 2 + 40);
-            this.ctx.font='15px Arial';
-            this.ctx.fillText(`LeaderBoard`,this.width/2 -40,this.height/2 + 60);
-            this.ctx.font='10px Arial';
+            this.ctx.fillText('Game Over', this.width / 2 - 130, this.height / 2);
+            this.ctx.font = '20px "Press Start 2P"';
+            this.ctx.fillText(`Final Score: ${this.score}`, this.width / 2 - 90, this.height / 2 + 40);
+            this.ctx.font='20px "Press Start 2P"';
+            this.ctx.fillText(`LeaderBoard`,this.width/2 -15,this.height/2 + 70);
+            this.ctx.font='15px "Press Start 2P"';
             this.leaderboard.forEach((score,index)=>{
-                this.ctx.fillText(`${Number(index)+1}. ${score}`,this.width/2 -40 ,this.height/2 + 80 + index*15);
+                this.ctx.fillText(`${Number(index)+1}. ${score}`,this.width/2 -40 ,this.height/2 + 90 + index*15);
             })
 
         }
