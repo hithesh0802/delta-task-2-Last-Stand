@@ -41,6 +41,12 @@ class Player {
         this.fps= 5+ Math.random()*10;
         this.frameinterval= 1000/this.fps ;
         this.moving=false;
+        this.ammo1 = 30; 
+        this.ammo2= 20;
+        this.maxAmmo1 = 30;
+        this.maxAmmo2= 20;
+        this.fuel = 100; 
+        this.maxFuel = 100;
     }
 
     initControls() {
@@ -66,6 +72,7 @@ class Player {
                 this.facingDirection = 'left';
             }
             if (e.key === ' ' || e.key==='ArrowUp') {
+                if(this.fuel >0){
                 if(this.jumpCount < 3){
                 this.dy = this.jumpStrength;
                 this.jumpCount++;
@@ -76,6 +83,7 @@ class Player {
                         this.jumpCount=0;
                     },1000)
                 }
+            }
             }
             if (e.key === 'f') this.shoot(this.facingDirection);
             
@@ -125,12 +133,23 @@ class Player {
                 this.framehorizontal=0;
             }
         }
+
+        if (this.isJumping && this.fuel > 0) {
+            this.fuel -= 0.7;
+        }
         
         this.projectiles.forEach(projectile => projectile.update());
         this.projectiles = this.projectiles.filter(projectile => projectile.y > 0);
     }
 
     draw(ctx) {
+        ctx.fillStyle = 'white';
+        ctx.font='15px "Press start 2P"';
+        ctx.fillText('Fuel',10,62);
+
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(70, 50, this.fuel, 10);
+
         if(this.facingDirection==='right' && !this.isJumping){
             ctx.drawImage(this.imgright,this.framehorizontal * this.spritelength,0,this.spritelength,this.spritedepth,this.x,this.y,this.width,this.height);
         }else if(this.isJumping && this.facingDirection==='right'){

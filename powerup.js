@@ -4,8 +4,8 @@ class powerup{
         this.ctx= this.game.ctx;
         this.x= this.game.width / 2;
         this.y= this.game.height - 155;
-        this.width=35;
-        this.height=35;
+        this.width=40;
+        this.height=40;
         this.type=(Math.random() > 0.4)?'immunity':'freeze';
         this.active='true';
         this.image= document.getElementById('health');

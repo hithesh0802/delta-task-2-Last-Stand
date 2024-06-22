@@ -74,12 +74,12 @@ class Block extends defense{
         this.color = 'brown';
         this.durability = 3;
         this.arr=[];
+        this.image=document.getElementById('block');
         this.blastZombie=new Audio('mixkit-arcade-game-explosion-2759.wav');
     }
 
     draw(ctx) {
-        ctx.fillStyle = this.color;
-        super.draw(ctx);
+        ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
     }
 
     update() {

@@ -14,6 +14,8 @@ class Game {
         this.speed=2;
         this.time=false;
         this.preparationPhase = 'true';
+        this.background= new Image();
+        this.background.src='background.png';
         this.hitSound=new Audio('mixkit-sword-strikes-armor-2765.wav');
         this.powered=new Audio('mixkit-quick-positive-video-game-notification-interface-265_4afHzuGq.wav');
         window.addEventListener('load',()=>{
@@ -32,6 +34,13 @@ class Game {
             this.spawnpowerup();
             this.time=true;
         },10000)
+
+        setInterval(()=>{
+            if(this.player.fuel < 100){
+                this.player.fuel+= 5;
+            }
+        },1000)
+
         // Event listener for pause/play
         window.addEventListener('keydown', (event) => {
             if (event.key === 'p') {
@@ -63,17 +72,17 @@ class Game {
     }
 
     spawnZombie() {
-        if(this.paused===false ){
+        if(this.paused===false && this.gameOver===false){
         if(Math.random() >= 0.5)
         this.zombies.push(new Zombie(this));
         else
         this.zombies.push(new climberZombie(this));
         }
-        setTimeout(() => this.spawnZombie(), 1700); 
+        setTimeout(() => this.spawnZombie(), 1500); 
     }
 
     spawnpowerup(){
-        if(this.paused===false){
+        if(this.paused===false && this.gameOver===false){
         this.powerups.push(new powerup(this));
         }
         setTimeout(() => this.spawnpowerup(), 18000);  
@@ -91,6 +100,7 @@ class Game {
     }
 
     draw() {
+        this.ctx.drawImage(this.background,0,0,this.width,this.height);
         this.assistance.forEach(assist =>{
             assist.draw(this.ctx);
         })
@@ -100,11 +110,12 @@ class Game {
         this.defensiveItems.forEach(item => item.draw(this.ctx));
          // Draw score
          this.ctx.fillStyle = 'white';
-         this.ctx.font = '20px Arial';
-         this.ctx.fillText(`Score: ${this.score}`, 10, 20);
-         if(!this.time)
-         this.ctx.fillText('Preparation Phase',this.width /2 -60,40);
-
+         this.ctx.font = '20px "Press Start 2P"';
+         this.ctx.fillText(`Score: ${this.score}`, 10, 40);
+         if(!this.time){
+            this.ctx.font='30px "Creepster"';
+            this.ctx.fillText('Preparation Phase',this.width /2 -60,40);
+         }
          if (this.paused) {
              this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
              this.ctx.fillRect(0, 0, this.width, this.height);
@@ -119,7 +130,7 @@ class Game {
             this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
             this.ctx.fillRect(0, 0, this.width, this.height);
             this.ctx.fillStyle = 'white';
-            this.ctx.font = '40px Arial';
+            this.ctx.font = '40px "Press Start 2P"';
             this.ctx.fillText('Game Over', this.width / 2 - 100, this.height / 2);
             this.ctx.font = '20px Arial';
             this.ctx.fillText(`Final Score: ${this.score}`, this.width / 2 - 60, this.height / 2 + 40);
