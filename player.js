@@ -43,8 +43,8 @@ class Player {
         this.moving=false;
         this.ammo1 = 30; 
         this.ammo2= 20;
-        this.maxAmmo1 = 100;
-        this.maxAmmo2= 60;
+        this.maxAmmo1 = 30;
+        this.maxAmmo2= 20;
         this.fuel = 100; 
         this.maxFuel = 100;
     }

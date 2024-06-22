@@ -45,6 +45,11 @@ class inventory {
 
         Object.keys(this.items).forEach((item, index) => {
             ctx.strokeStyle = this.selectedItem === item ? 'yellow' : 'white';
+            if(this.selectedItem === item){
+                ctx.lineWidth=5;
+            }else{
+                ctx.lineWidth=2;
+            }
             ctx.strokeRect(x, y, itemWidth, itemHeight);
             ctx.drawImage(this.items[item].img, x, y, itemWidth, itemHeight);
             ctx.fillStyle = 'white';
